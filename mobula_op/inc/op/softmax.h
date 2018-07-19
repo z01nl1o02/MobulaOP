@@ -6,7 +6,7 @@
 extern "C" {
 using namespace mobula;
 
-void softmax_forward(
+MOBULA_OP_API void softmax_forward(
     const DType *data,
     const int num_classes,
     const int outer_size,
@@ -14,7 +14,7 @@ void softmax_forward(
     DType *probs);
 
 
-void softmax_loss_forward(
+MOBULA_OP_API void softmax_loss_forward(
     const DType *probs,
     const DType *labels,
     const int num_classes,
@@ -23,7 +23,7 @@ void softmax_loss_forward(
     DType *losses);
 
 
-void softmax_loss_backward(
+MOBULA_OP_API void softmax_loss_backward(
     const DType *probs,
     const DType *labels,
     const int num_classes,

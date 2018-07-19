@@ -59,8 +59,9 @@ MOBULA_KERNEL linalg_gemm_tt_kernel(const int n, const T *a, const T *b, const i
 extern "C" {
 using namespace mobula;
 
-void linalg_gemm_ff(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
-#if not USING_CBLAS
+MOBULA_OP_API void linalg_gemm_ff(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
+//#if not USING_CBLAS
+#if USING_CBLAS == 0
     const int N = I;
     KERNEL_RUN(linalg_gemm_ff_kernel<DType>, N)(N, a, b, U, J, out);
 #else
@@ -68,8 +69,9 @@ void linalg_gemm_ff(const DType *a, const DType *b, const int I, const int U, co
 #endif
 }
 
-void linalg_gemm_ft(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
-#if not USING_CBLAS
+MOBULA_OP_API void linalg_gemm_ft(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
+//#if not USING_CBLAS
+#if USING_CBLAS == 0
     const int N = I * J;
     KERNEL_RUN(linalg_gemm_ft_kernel<DType>, N)(N, a, b, U, J, out);
 #else
@@ -77,8 +79,9 @@ void linalg_gemm_ft(const DType *a, const DType *b, const int I, const int U, co
 #endif
 }
 
-void linalg_gemm_tf(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
-#if not USING_CBLAS
+MOBULA_OP_API void linalg_gemm_tf(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
+//#if not USING_CBLAS
+#if USING_CBLAS == 0
     const int N = I * J;
     KERNEL_RUN(linalg_gemm_tf_kernel<DType>, N)(N, a, b, I, U, J, out);
 #else
@@ -86,8 +89,9 @@ void linalg_gemm_tf(const DType *a, const DType *b, const int I, const int U, co
 #endif
 }
 
-void linalg_gemm_tt(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
-#if not USING_CBLAS
+MOBULA_OP_API void linalg_gemm_tt(const DType *a, const DType *b, const int I, const int U, const int J, DType *out) {
+//#if not USING_CBLAS
+#if USING_CBLAS == 0
     const int N = J;
     KERNEL_RUN(linalg_gemm_tt_kernel<DType>, N)(N, a, b, I, U, J, out);
 #else

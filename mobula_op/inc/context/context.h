@@ -3,6 +3,13 @@
 
 #include <cstring>
 
+#ifdef mobula_op_gpu_EXPORTS
+#define MOBULA_OP_API __declspec(dllexport)
+#else
+#define MOBULA_OP_API __declspec(dllimport)
+#endif
+
+
 #if USING_CUDA
 #include "context/cuda_ctx.h"
 #else
@@ -154,7 +161,7 @@ private:
 // C API
 extern "C" {
 
-void set_device(const int device_id);
+MOBULA_OP_API void set_device(const int device_id);
 
 }
 

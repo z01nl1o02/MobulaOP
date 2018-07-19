@@ -9,7 +9,7 @@
 extern "C" {
 using namespace mobula;
 
-void roi_align_forward(
+MOBULA_OP_API void roi_align_forward(
     const int nthreads,
     const DType* bottom_data,
     const DType spatial_scale,
@@ -22,7 +22,7 @@ void roi_align_forward(
     const DType* bottom_rois,
     DType* top_data);
 
-void roi_align_backward(
+MOBULA_OP_API void roi_align_backward(
     const int nthreads,
     const DType* top_diff,
     const int num_rois,

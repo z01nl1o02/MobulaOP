@@ -77,13 +77,13 @@ using namespace mobula;
 
 #define REGISTER_UNARY_FUNC(func_name, func) \
     using T = DType;\
-    void func_name(const int _n, const T *_a, T *_out) {\
+    MOBULA_OP_API void func_name(const int _n, const T *_a, T *_out) {\
         auto _func = func;\
         KERNEL_RUN((unary_kernel<T, decltype(_func)>), _n)(_n, _a, _out, _func);\
     } \
 
 #define REGISTER_BINARY_FUNC(func_name, func) \
-    void func_name(const int _n, const DType *_a, const DType *_b, DType *_out) {\
+    MOBULA_OP_API void func_name(const int _n, const DType *_a, const DType *_b, DType *_out) {\
         auto _func = func;\
         KERNEL_RUN((binary_kernel<DType, decltype(_func)>), _n)(_n, _a, _b, _out, _func);\
     } \
@@ -95,12 +95,12 @@ REGISTER_BINARY_FUNC(sub, []MOBULA_DEVICE(const DType &a, const DType &b){return
 REGISTER_BINARY_FUNC(mul, []MOBULA_DEVICE(const DType &a, const DType &b){return a * b;})
 REGISTER_BINARY_FUNC(div_, []MOBULA_DEVICE(const DType &a, const DType &b){return a / b;})
 
-void dot_add(const DType *a, const DType *b, const int I, const int U, const int K, const int M, DType *out) {
+MOBULA_OP_API void dot_add(const DType *a, const DType *b, const int I, const int U, const int K, const int M, DType *out) {
     const int N = I * K;
     KERNEL_RUN(dot_add_kernel<DType>, N)(N, a, b, U, K, M, out);
 }
 
-void print_carray(CArray<DType> ca) {
+MOBULA_OP_API void print_carray(CArray<DType> ca) {
     bool first = true;
     for (size_t i = 0; i < ca.size; ++i) {
         if (!first) std::cout << ", ";
@@ -110,7 +110,7 @@ void print_carray(CArray<DType> ca) {
     std::cout << std::endl;
 }
 
-void assign_carray(CArray<DType> a, DType *out) {
+MOBULA_OP_API void assign_carray(CArray<DType> a, DType *out) {
     const int N = a.size;
     auto sp = ctx_pointer<DType>(N, a.data);
     sp.set_ctx(CTX::DEVICE);
@@ -118,11 +118,11 @@ void assign_carray(CArray<DType> a, DType *out) {
     KERNEL_RUN(assign_carray_kernel<DType>, N)(N, pa, out);
 }
 
-void assign_val(const int n, const int val, DType *out) {
+MOBULA_OP_API void assign_val(const int n, const int val, DType *out) {
     KERNEL_RUN(assign_val_kernel<DType>, n)(n, val, out);
 }
 
-void sum(const int n, CArray<DType*> a, DType *out) {
+MOBULA_OP_API void sum(const int n, CArray<DType*> a, DType *out) {
     const int num_vars = a.size;
     assign_val(n, 0, out);
     for (int i = 0; i < num_vars; ++i) {
@@ -131,7 +131,7 @@ void sum(const int n, CArray<DType*> a, DType *out) {
     }
 }
 
-void transpose(const DType *a, CArray<int> shape, CArray<int> axes, DType *out) {
+MOBULA_OP_API void transpose(const DType *a, CArray<int> shape, CArray<int> axes, DType *out) {
     ctx_pointer<int> new_shape(shape.size);
     ctx_pointer<int> new_strides(shape.size);
     int *strides = new int[shape.size];

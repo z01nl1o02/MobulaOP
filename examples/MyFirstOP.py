@@ -4,6 +4,8 @@ import mobula_op
 
 @mobula_op.operator.register
 class MyFirstOP:
+    def __init__(self):
+        return
     def forward(self, x, y):
         return x + y
     def backward(self, dy): 
