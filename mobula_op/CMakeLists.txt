@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 
 project(mobula_op_gpu LANGUAGES CXX CUDA)
 
-find_package(CUDA REQUIRED)
+#find_package(CUDA REQUIRED)
 
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-extended-lambda -gencode arch=compute_50,code=sm_50")
 
