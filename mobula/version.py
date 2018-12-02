@@ -1,0 +1,3 @@
+__version__ = 2.02
+
+OP_LOAD_MODULE_BUILD_VERSION = 2.02
